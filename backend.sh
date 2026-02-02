@@ -3,6 +3,8 @@
 source ./common.sh
 
 check_root
+echo "Please enter DB password:"
+read -s mysql_root_password
 
 dnf module disable nodejs -y &>>$LOGFILE
 VALIDATE $? "Disabiling the nodejs"
@@ -51,7 +53,7 @@ VALIDATE $? "enabling backend"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "installing MYSQL Client"
 
-mysql -h 54.234.110.228 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOGFILE
+mysql -h 172.31.27.211 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE
